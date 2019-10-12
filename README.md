@@ -77,7 +77,22 @@
 ````
   <aop:aspectj-autoproxy proxy-target-class="true"/>
 ````
+
+ **9、为什么JDK动态代理中要求目标类实现的接口数量不能超过65535个？**
+ 
+ ````
+  class文件是一组8字节为基础的二进制流，interface_count占2字节，即16.00000000,00000000；
+  所以，证明interface_count的数量最多是2^16次方 最大值=65535；这是在JVM的层面上决定了它的数量最多是65535
+  且在java源码中也可以看到：
   
+  if (var2.size() > 65535) {
+      throw new IllegalArgumentException("interface limit exceeded: " + var2.size());
+  }
+  
+  直接做了65535的长度的校验，所以，JDK的动态代理要求，目标类实现的接口数量不能超过65535
+  
+ ````
+ 
 
 
 
